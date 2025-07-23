@@ -8,6 +8,28 @@ generate_password() {
   local USE_UPPER=true
   local USE_NUMBER=true
 
+  # Help message
+  if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    cat <<EOF
+🔐 Password Generator
+
+Usage: generate_password [OPTIONS]
+
+Options:
+  --length, -l <num>     Password length (default: 14)
+  --symbol, -s           Include symbols (!@#...)
+  --no-lower             Exclude lowercase letters
+  --no-upper             Exclude uppercase letters
+  --no-number            Exclude digits (0-9)
+  --help, -h             Show this help message
+
+Examples:
+  generate_password -l 20 -s
+  generate_password --no-upper --no-number
+EOF
+    return 0
+  fi
+
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -33,6 +55,7 @@ generate_password() {
         ;;
       *)
         echo "❌ Unknown option: $1"
+        echo "👉 Use --help to see available options."
         return 1
         ;;
     esac
